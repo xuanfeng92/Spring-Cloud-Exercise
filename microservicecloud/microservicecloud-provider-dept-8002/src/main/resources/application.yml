@@ -1,0 +1,31 @@
+server:
+  port: 8002
+mybatis:
+  config-location: classpath:mybatis/mybaits.cfg.xml
+  type-aliases-package: com.xh.springcloud.entities
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+spring:
+  application:
+    name: microservicecloud-dept         # 用于向eureka服务注册的应用名称，服务发现的时候，也会使用该值进行定位
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloud02
+    username: root
+    password: zxcvb123
+    dbcp2:
+      min-idle: 5                                       # 数据库连接池的最小维持链接数
+      initial-size: 5                                   # 初始化连接数
+      max-total: 5                                      # 最大连接数
+      max-wait-millis: 200                              # 等待连接获取的最大超时时间
+      testWhileIdle: true                               # 进行连接验证
+eureka:
+  client:     # 客户端注册进eureka 服务列表
+    service-url:
+      # defaultZone: http://eureka7001.com:7001/eureka   # 单机配置 eureka server端设置的defaultZone值（要注册的euraka的defaultZone值）
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka   # 集群配置 eureka server端设置的多个defaultZone值
+  instance:
+    instance-id: microservicecloud-dept8002   # 修改注册到eureka的的status，自定义服务名称信息
+    prefer-ip-address: false                  # 访问路径可以现实IP地址
+    statusPageUrlPath: /info                  # 自定义status页面的请求
+    healthCheckUrlPath: /health               # 自定义health页面的请求

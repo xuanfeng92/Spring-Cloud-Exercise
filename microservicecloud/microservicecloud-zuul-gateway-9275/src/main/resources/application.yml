@@ -1,0 +1,21 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: microservicecloud-zuul-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka   # 将zuul注册到指定的Eureka集群位置
+  instance:
+    instance-id: gateway9527.com   # 对应系统的hosts文件映射
+    prefer-ip-address: true        # 是否显示Ip
+zuul:
+  # ignoredServices: microservicecloud-dept  # 忽略对指定微服务名的显示请求
+  ignoredServices: *  # 忽略对所有微服务名的显示请求
+  routes:
+    users:
+      serviceId: microservicecloud-dept   # 指定要隐藏的显示微服务名
+      path: /mydept/**                    # 当请求指定微服务时，用该路径隐藏 即访问/microservicecloud-dept/**时会替换为 /mydept/**
+  prefix: /xh       # 设置公共前缀
